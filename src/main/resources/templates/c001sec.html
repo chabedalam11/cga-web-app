@@ -1,0 +1,222 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+	<link lang="en" th:replace="fragments/generalheader :: gheader"/>
+	<title>Section</title>
+	<link rel="icon" type="image/png" th:href="@{/img/ico/registration.ico}"/>
+</head>
+  
+<body>
+<!-- Side Navbar -->
+<div lang="en" th:replace="fragments/side_nav :: sidenav"> </div>
+
+<!-- page div -->
+ <div class="page">
+ <!-- top navbar-->
+ <div lang="en" th:replace="fragments/top_nav :: topnav"> </div>
+ <!-- Breadcrumb-->
+	<!-- <div class="breadcrumb-holder">
+        <div class="container-fluid">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin/home">Home</a></li>
+            <li class="breadcrumb-item active">Route</li>
+          </ul>
+        </div>
+     </div> -->
+<!-- // Breadcrumb--> 
+
+<!-- product form-->
+ <section class="forms">
+ 	<!-- container-fluid-->
+ 	<div class="container-fluid">
+    	<br/>
+    	<!--  row -->
+	    <div class="row">
+	    	<!--  Top part -->
+	    	<div class="col-lg-12">
+	        <div class="card">
+	          <div class="card-body">
+	            <form th:action="@{/section/save}" th:object="${section}"  method="post">
+	            <!-- form row -->
+	            <div class="row">
+	            	<div class="col-lg-6">
+	            		<div class="form-group">
+			              	<label>abbre</label>
+			                <input type="text" th:field="*{abbre}" placeholder="abbre" class="form-control form-control-sm" required="required"/>
+		              	</div>
+	            	</div>
+	            </div>
+	            <!-- // form row -->
+	              
+	              <div class="form-group">       
+	                <input type="submit" value="Save" class="btn btn-primary"/>
+	                <input type="reset" value="Clear" class="btn btn-danger"/>
+	              </div>
+	            </form>
+	          </div>
+	        </div>
+	      </div>
+	      <!-- // Top side -->
+	      
+	      <!--  Bottom side -->
+	      	<div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table id="example" class="table table-sm table-striped table-bordered" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>Edit</th>
+                          <th>Route Code</th>
+                          <th>Route Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr th:each="section : ${sectionList}">
+                        	<td data-toggle="modal" data-target="#myModal" class="action"><i class="fa fa-pencil-square-o fa-2x text-success"></i></td>
+					        <td th:text="${section.id}"></td>
+					        <td th:text="${sectione.ide}"></td>
+					    </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+	      <!-- // Bottom side --> 
+	    </div>
+	    <!-- // row -->
+	</div>
+	<!-- // container-fluid-->
+</section>      
+<!-- // product form-->
+
+<!-- Modal form-->
+<div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+  <div role="document" class="modal-dialog" style="max-width: 50% !important;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="exampleModalLabel" class="modal-title">Edit section</h5>
+        <button type="button" data-dismiss="modal" aria-label="Close" class="close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/section/edit}" th:object="${section}" method="post">
+           <!-- form row -->
+           <div class="row">
+            <input id="one" type="hidden" th:field="*{id}"/>
+           	<div class="col-lg-10">
+           		<div class="form-group">
+	              	<label>abbre</label>
+	                <input id="two" type="text" th:field="*{abbre}" placeholder="name" class="form-control form-control-sm" required="required"/>
+              	</div>
+           	</div>
+           </div>
+           <!-- // form row -->
+            <div class="form-group">       
+              <input type="submit" name="action" value="Update" class="btn btn-primary"/>
+     		  <input type="submit" id="btnDelete" name="action" value="Delete" class="btn btn-danger"/>
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- // Modal form-->   
+ <input type="hidden" id="status" th:value="${status}" />
+<!-- Footer -->
+<div lang="en" th:replace="fragments/footer :: footer"> </div>     
+</div>
+<!-- //page div -->
+</body>
+</html>
+
+<script th:inline="javascript">
+/* ============= HIDE SOME FIELD ============= */
+//$('.gCodeError').hide();
+
+/* ============= CONTROLLER LIST ============= */
+var sectionList;
+ /*<![CDATA[*/
+ sectionList = /*[[${sectionList}]]*/ 'default';
+ /*]]>*/
+
+ /* jQuery.each( sectionList, function( i, val ) {
+     console.log(" aval : "+val.name);
+ }); */
+
+/* ============= set dataTable ============= */
+$('#example').DataTable();
+ $('#example_filter label input').focus();
+
+/* ============= Server Status ============= */
+var status = $('#status').val();
+if(status == 'save'){
+	showAlert("data is saved properly");
+}else if(status == 'update'){
+	showAlert("data is update properly");
+}else if(status == 'delete'){
+	showAlert("data is delete properly");
+}else if(status == 'error'){
+	showErrorAlert("unable to complete transaction");
+}
+
+/* success message */
+function showAlert(msg) {
+	var dom = '<div class="top-alert"><div class="alert alert-success alert-dismissible fade show"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Success!</strong> ' + msg + ' </div></div>';
+	var jdom = $(dom);
+	jdom.hide();
+	$("body").append(jdom);
+	jdom.fadeIn();
+	setTimeout(function() {
+		jdom.fadeOut(function() {
+			jdom.remove();
+		});
+	}, 3000);
+}
+
+/* error message */
+function showErrorAlert(msg) {
+	var dom = '<div class="top-alert"><div class="alert alert-danger alert-dismissible fade show"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Error!</strong> ' + msg + ' </div></div>';
+	var jdom = $(dom);
+	jdom.hide();
+	$("body").append(jdom);
+	jdom.fadeIn();
+	setTimeout(function() {
+		jdom.fadeOut(function() {
+			jdom.remove();
+		});
+	}, 3000);
+}
+
+/* ============= SET UPDATE PARAM ============= */
+$(document).on('click', '.action', function(){ 
+	var count =0;
+    var $row = $(this).closest("tr");    // Find the row
+    var $tds = $row.find("td");
+    $.each($tds, function() {
+        if(count == 1){
+        	$("#one").val($(this).text());
+        }else if(count == 2){
+        	$("#two").val($(this).text());
+        }
+        count++;
+    });
+});
+
+/* ============= delete button ============= */
+$( "#btnDelete" ).click(function() {
+	if (confirm("are you sure ?")) {
+		$( "#two" ).val("0");
+		return true;
+    } else {
+    	return false;
+    }
+	
+});
+
+</script>
+
+

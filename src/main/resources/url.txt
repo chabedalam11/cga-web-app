@@ -1,0 +1,9 @@
+//commend mvn
+	$ mvn clean install
+	$ java -jar target/prescription-service-0.1.jar
+
+
+	
+//=============== get all data===========
+	1.	http://100.43.0.17:9025/cga/data
+

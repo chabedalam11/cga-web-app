@@ -1,0 +1,42 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="topnav">
+	<header class="header">
+        <nav class="navbar py-0">
+          <div class="container-fluid">
+            <div class="navbar-holder d-flex align-items-center justify-content-between">
+              <div class="navbar-header">
+              	<a id="toggle-btn" href="#" class="menu-btn">
+              		<i class="icon-bars"> </i>
+           		</a>
+           		<a href="/admin/home" class="navbar-brand">
+                  <div class="brand-text d-none d-md-inline-block">
+                  <span th:text="#{txt.companyname.first}">Company name </span>
+                  <span th:text="#{txt.companyname.second}">Company name </span>
+                  <!-- <strong th:text="#{txt.companyname.first}" class="text-primary">Company name</strong>
+                  <strong th:text="#{txt.companyname.second}" class="text-primary">Company name</strong> -->
+                  </div>
+                </a>
+              </div>
+              <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+                <li class="nav-item dropdown"> <a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fa fa-angle-double-down "></i></a>
+                  <ul aria-labelledby="notifications" class="dropdown-menu">
+                    <li><a rel="nofollow" href="#" class="dropdown-item"> 
+                        <div class="notification d-flex justify-content-between">
+                          <div class="notification-content"><i class="fa fa-cog "></i>Setting</div>
+                        </div></a>
+                    </li>
+                    <li><a rel="nofollow" href="#" class="dropdown-item"> 
+                        <div class="notification d-flex justify-content-between">
+                          <div class="notification-content"><i class="fa fa-user-circle  "></i>Profile</div>
+                        </div></a>
+                    </li>
+                  </ul>
+                </li> 
+                <li class="nav-item"><a href="/logout" class="nav-link logout">Logout<i class="fa fa-sign-out"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+</div>
+</html>
